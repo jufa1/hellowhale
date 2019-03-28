@@ -1,14 +1,13 @@
 def CONTAINER_NAME="hellowhale"
 def CONTAINER_TAG="latest"
 def DOCKER_HUB_USER="ndachuwa"
-def --passwordVariable = tool 'DOCKER_HUB'
+def passwordVariable = tool 'DOCKER_HUB'
 def HTTP_PORT="8090"
 
 node {
 
     stage('Initialize'){
-        def dockerHome = tool 'myDocker'
-        env.PATH = "${dockerHome}/bin:${env.PATH}"
+        echo "Initialized"
     }
 
     stage('Image Prune'){
