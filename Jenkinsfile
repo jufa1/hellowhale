@@ -1,7 +1,6 @@
 def CONTAINER_NAME="hellowhale"
 def CONTAINER_TAG="latest"
 def DOCKER_HUB_USER="ndachuwa"
-def passwordVariable = tool 'DOCKER_HUB'
 def HTTP_PORT="8090"
 
 node {
@@ -18,14 +17,8 @@ node {
         imageBuild(CONTAINER_NAME, CONTAINER_TAG)
     }
 
-    stage('Push to Docker Registry'){
-        withCredentials([usernamePassword(credentialsId: 'dockerHubAccount', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-            pushToImage(CONTAINER_NAME, CONTAINER_TAG, USERNAME, PASSWORD)
-        }
-    }
-    
     stage('Run App'){
-        runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
+        runApp(HTTP_PORT)
     }
 
 }
@@ -42,17 +35,16 @@ def imageBuild(containerName, tag){
     echo "Image build complete"
 }
 
-def pushToImage(containerName, tag, dockerUser, dockerPassword){
-    sh "docker login -u $dockerUser -p $dockerPassword"
-    sh "docker tag $containerName:$tag $dockerUser/$containerName:$tag"
-    sh "docker push $dockerUser/$containerName:$tag"
+def pushToImage{
+    sh "docker login -u ndachuwa -p singakati123"
+    sh "docker tag hellowhale:latest ndachuwa/hellowhale:latest"
+    sh "docker push ndachuwa/hellowhale:latest"
     echo "Image push complete"
 }
 
-def runApp(containerName, tag, dockerHubUser, httpPort){
-    sh "docker pull $dockerHubUser/$containerName"
-    sh "docker run -d --rm -p $httpPort:$httpPort --name $containerName $dockerHubUser/$containerName:$tag"
+def runApp(httpPort){
+    sh "docker pull ndachuwa/hellowhale"
+    sh "docker run -d --rm -p 8090:8090 --name hellowhale ndachuwa/hellowhale:latest"
     echo "Application started on port: ${httpPort} (http)"
 }
-    
     
