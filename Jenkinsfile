@@ -22,6 +22,7 @@ node {
         withCredentials([usernamePassword(credentialsId: 'dockerHubAccount', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
             pushToImage(CONTAINER_NAME, CONTAINER_TAG, USERNAME, PASSWORD)
         }
+    }
     
     stage('Run App'){
         runApp(CONTAINER_NAME, CONTAINER_TAG, DOCKER_HUB_USER, HTTP_PORT)
