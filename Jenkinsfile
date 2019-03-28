@@ -25,26 +25,26 @@ node {
 
 def imagePrune(containerName){
     try {
-        sh "docker image prune -f"
-        sh "docker stop $containerName"
+        sh "sudo docker image prune -f"
+        sh "sudo docker stop $containerName"
     } catch(error){}
 }
 
 def imageBuild(containerName, tag){
-    sh "docker build -t $containerName:$tag  -t $containerName --pull --no-cache ."
+    sh "sudo docker build -t $containerName:$tag  -t $containerName --pull --no-cache ."
     echo "Image build complete"
 }
 
 def pushToImage{
-    sh "docker login -u ndachuwa -p singakati123"
-    sh "docker tag hellowhale:latest ndachuwa/hellowhale:latest"
-    sh "docker push ndachuwa/hellowhale:latest"
+    sh "sudo docker login -u ndachuwa -p singakati123"
+    sh "sudo docker tag hellowhale:latest ndachuwa/hellowhale:latest"
+    sh "sudo docker push ndachuwa/hellowhale:latest"
     echo "Image push complete"
 }
 
 def runApp(httpPort){
-    sh "docker pull ndachuwa/hellowhale"
-    sh "docker run -d --rm -p 8090:8090 --name hellowhale ndachuwa/hellowhale:latest"
+    sh "sudo docker pull ndachuwa/hellowhale"
+    sh "sudo docker run -d --rm -p 8090:8090 --name hellowhale ndachuwa/hellowhale:latest"
     echo "Application started on port: ${httpPort} (http)"
 }
     
