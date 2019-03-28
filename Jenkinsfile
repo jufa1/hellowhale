@@ -11,7 +11,7 @@ node {
         env.PATH = "${dockerHome}/bin:${env.PATH}"
     }
 
-    stage("Image Prune"){
+    stage('Image Prune'){
         imagePrune(CONTAINER_NAME)
     }
 
