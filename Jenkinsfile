@@ -17,6 +17,10 @@ node {
         imageBuild(CONTAINER_NAME, CONTAINER_TAG)
     }
 
+    stage('Push to Image Registry'){
+        pushToImage
+    }
+    
     stage('Run App'){
         runApp(HTTP_PORT)
     }
