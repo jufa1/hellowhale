@@ -42,13 +42,6 @@ def imageBuild(containerName, tag){
     echo "Image build complete"
 }
 
-def OLD_pushToImage{
-    sh "sudo docker login -u ndachuwa -p singakati123"
-    sh "sudo docker tag hellowhale:latest ndachuwa/hellowhale:latest"
-    sh "sudo docker push ndachuwa/hellowhale:latest"
-    echo "Image push complete"
-}
-
 
 def pushToImage(containerName, tag, dockerUser, dockerPassword){
     sh "docker login -u $dockerUser -p $dockerPassword"
