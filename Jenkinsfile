@@ -17,9 +17,12 @@ node {
         imageBuild(CONTAINER_NAME, CONTAINER_TAG)
     }
 
-    stage('Push to Image Registry'){
-        pushToImage
+    stage('Push to Docker Registry'){
+        withCredentials([usernamePassword(credentialsId: 'dockerHubAccount', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+            pushToImage(CONTAINER_NAME, CONTAINER_TAG, USERNAME, PASSWORD)
+        }
     }
+    
     
     stage('Run App'){
         runApp(HTTP_PORT)
@@ -39,10 +42,18 @@ def imageBuild(containerName, tag){
     echo "Image build complete"
 }
 
-def pushToImage{
+def OLD_pushToImage{
     sh "sudo docker login -u ndachuwa -p singakati123"
     sh "sudo docker tag hellowhale:latest ndachuwa/hellowhale:latest"
     sh "sudo docker push ndachuwa/hellowhale:latest"
+    echo "Image push complete"
+}
+
+
+def pushToImage(containerName, tag, dockerUser, dockerPassword){
+    sh "docker login -u $dockerUser -p $dockerPassword"
+    sh "docker tag $containerName:$tag $dockerUser/$containerName:$tag"
+    sh "docker push $dockerUser/$containerName:$tag"
     echo "Image push complete"
 }
 
