@@ -19,6 +19,11 @@ node {
 
     stage('Push to Docker Registry'){
         withCredentials([usernamePassword(credentialsId: 'dockerHubAccount', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+           sh 'echo $PASSWORD'
+        // also available as a Groovy variable
+            echo USERNAME
+        // or inside double quotes for string interpolation
+            echo "username is $USERNAME"
             pushToImage(CONTAINER_NAME, CONTAINER_TAG, USERNAME, PASSWORD)
         }
     }
