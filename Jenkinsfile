@@ -38,7 +38,8 @@ def imagePrune(containerName){
 }
 
 def imageBuild(containerName, tag){
-    sh "cd /home/oracle/hellowhale && docker build -t $containerName:$tag --pull --no-cache ."
+    sh "cd /home/oracle/hellowhale"
+    sh "docker build -t $containerName:$tag --pull --no-cache ."
     echo "Image build complete"
 }
 
