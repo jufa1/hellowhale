@@ -1,6 +1,5 @@
 def CONTAINER_NAME="hellowhale"
 def CONTAINER_TAG="latest"
-def DOCKER_HUB_USER="ndachuwa"
 def HTTP_PORT="8090"
 
 node {
@@ -19,12 +18,7 @@ node {
 
     stage('Push to Docker Registry'){
         withCredentials([usernamePassword(credentialsId: 'ndachuwa', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-           sh 'echo $PASSWORD'
-        // also available as a Groovy variable
-            echo USERNAME
-        // or inside double quotes for string interpolation
-            echo "username is $USERNAME"
-            pushToImage(CONTAINER_NAME, CONTAINER_TAG, USERNAME, PASSWORD)
+        pushToImage(CONTAINER_NAME, CONTAINER_TAG, USERNAME, PASSWORD)
         }
     }
     
